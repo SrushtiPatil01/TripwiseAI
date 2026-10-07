@@ -31,7 +31,6 @@
 - [API reference](#api-reference)
 - [Observability](#observability)
 - [Deployment](#deployment)
-- [Project structure](#project-structure)
 
 ---
 
@@ -343,27 +342,3 @@ Airflow DAG ──▶ scheduled ingestion into Pinecone
 Secrets (API keys) are injected at runtime via the platform secret manager, never baked
 into the image.
 
-## Project structure
-
-```
-/app
-  main.py                  # FastAPI, /plan endpoint, SSE streaming
-  /agent
-    graph.py               # LangGraph loop: plan/retrieve/tools/generate/verify/revise
-    nodes.py               # node implementations
-  /rag
-    retrieve.py            # hybrid retrieval: dense + BM25 + rerank, metadata filter
-  /tools
-    weather.py             # weather tool
-    places.py              # places tool
-  /llm
-    provider.py            # OpenAI / Claude interface (swappable)
-/airflow
-  /dags
-    ingest_dag.py          # preprocess → chunk → embed → upsert to Pinecone
-/eval
-  ragas_eval.py            # offline RAGAS harness
-  queries.jsonl            # representative trip queries
-/deploy
-  Dockerfile
-```
